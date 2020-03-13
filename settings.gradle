@@ -1,0 +1,67 @@
+/*
+ * Copyright 2014 Netflix, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+include "orca-extensionpoint",
+  "orca-core",
+  "orca-api",
+  "orca-core-tck",
+  "orca-redis",
+  "orca-test-redis",
+  "orca-retrofit",
+  "orca-front50",
+  "orca-bakery",
+  "orca-dry-run",
+  "orca-echo",
+  "orca-eureka",
+  "orca-igor",
+  "orca-clouddriver",
+  "orca-kayenta",
+  "orca-kotlin",
+  "orca-keel",
+  "orca-mine",
+  "orca-test",
+  "orca-test-groovy",
+  "orca-test-kotlin",
+  "orca-flex",
+  "orca-webhook",
+  "orca-web",
+  "orca-applications",
+  "orca-queue",
+  "orca-queue-redis",
+  "orca-queue-sql",
+  "orca-queue-tck",
+  "orca-pipelinetemplate",
+  "orca-validation",
+  "orca-qos",
+  "orca-migration",
+  "orca-sql",
+  "orca-sql-mysql",
+  "orca-integrations-gremlin",
+  "orca-integrations-cloudfoundry",
+  "orca-bom"
+
+rootProject.name = "orca"
+
+def setBuildFile(project) {
+  project.buildFileName = "${project.name}.gradle"
+  project.children.each {
+    setBuildFile(it)
+  }
+}
+
+rootProject.children.each {
+  setBuildFile it
+}

@@ -1,0 +1,116 @@
+server:
+  port: 8083
+
+default:
+  bake:
+    account: default
+  securityGroups: []
+  vpc:
+    securityGroups: []
+
+front50:
+  enabled: true
+  baseUrl: http://localhost:8080
+tide:
+  baseUrl: http://localhost:8090
+oort:
+  baseUrl: http://localhost:7002
+mort:
+  baseUrl: http://localhost:7002
+kato:
+  baseUrl: http://localhost:7002
+echo:
+  enabled: false
+igor:
+  enabled: true
+  baseUrl: http://localhost:8088
+bakery:
+  enabled: true
+  baseUrl: http://localhost:8087
+  # Rosco exposes more endpoints than Netflix's internal bakery. This disables
+  # the use of those endpoints.
+  roscoApisEnabled: true
+  allowMissingPackageInstallation: false
+kayenta:
+  enabled: false
+  baseUrl: http://localhost:8090
+
+redis:
+  connection: ${REDIS_URL:redis://localhost:6379}
+
+keiko:
+  queue:
+    fillExecutorEachCycle: true
+    redis:
+      queueName: orca.task.queue
+      deadLetterQueueName: orca.task.deadLetterQueue
+
+tasks:
+  useWaitForAllNetflixAWSInstancesDownTask: false
+
+logging:
+  config: classpath:logback-defaults.xml
+
+integrations:
+  gremlin:
+    enabled: false
+    baseUrl: https://api.gremlin.com/v1
+
+# This configuration lets you configure Webhook stages that will appear as native stages in the Deck UI.
+# Properties that are set here will not be displayed in the GUI
+#webhook:
+#  preconfigured:
+#    - label: Some Webhook
+#      description: This is a webhook stage, but it appears as a native stage in Spinnaker
+#      type: customWebhook # Should be unique
+#      # The following properties are all optional:
+#      enabled: true # default true
+#      url: https://my.webhook.com/event
+#      customHeaders:
+#        Accept:
+#          - application/json
+#        AnotherHeader:
+#          - valueOne
+#          - valueTwo
+#      method: POST
+#      payload: |
+#        {
+#          "text": "Version ${trigger.buildInfo.artifacts[0].version} deployed"
+#        }
+#      waitForCompletion: true
+#      # The rest of the properties are only used if waitForCompletion == true
+#      statusUrlResolution: webhookResponse # getMethod, locationHeader, webhookResponse
+#      statusUrlJsonPath: $.statusUrl # Only used if statusUrlResolution == webhookResponse
+#      statusJsonPath: $.status
+#      progressJsonPath: $.progress
+#      successStatuses: SUCCESS,COMPLETED
+#      canceledStatuses: CANCELED
+#      terminalStatuses: TERMINATED
+#    - label: Another Webhook
+#      description: This is also a webhook stage, but it has no properties set
+#      type: anotherCustomWebhook
+#      enabled: false
+
+# This configuration lets you configure runJob stages that will appear as native stages in the Deck UI.
+# Properties that are set here will not be displayed in the GUI
+# job:
+#  preconfigured:
+#    - label: Some runJob
+#      description: This is a runJob stage, but it appears as a native stage in Spinnaker
+#      type: customRunJob # Should be unique
+#      cloudProvider: titus
+#      cluster:
+#        imageId: alpine:latest
+#      credentials: test
+#      region: us-east-1
+#      enabled: true # default true
+#      waitForCompletion: true
+#      parameters:
+#      - name: source
+#        mapping: cluster.env.source
+#        defaultValue: mysource
+#        order: 0
+#      - name: destination
+#        mapping: cluster.env.destination
+#        defaultValue: final
+#        order: 1
